@@ -14,6 +14,7 @@ public class SimpleChatClientHandler extends Thread {
         Scanner input = new Scanner(socket.getInputStream());
         //Important: This is a blocking call.
         String msg = input.nextLine();
+        System.out.println(msg);
         while(input.hasNext()){
             output.println(msg);
             msg = input.nextLine();

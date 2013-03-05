@@ -36,7 +36,6 @@ public class SimpleChatClient {
             output = new PrintWriter(socket.getOutputStream(),true);
             input = new Scanner(socket.getInputStream());
             output.println("CONNECT#"+userName);
-//            output.flush();
             state = CONNECTED;
         }
     }
@@ -60,6 +59,7 @@ public class SimpleChatClient {
         SimpleChatClient client = new SimpleChatClient();
         try {
             client.connect("localhost", 1234, "lol");
+            System.in.read();
         } catch (IOException ex) {
             Logger.getLogger(SimpleChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
