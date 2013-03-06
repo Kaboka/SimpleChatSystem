@@ -67,12 +67,14 @@ public class SimpleChatClient extends Thread {
     public void removeMessageArrivedEventListener(){
         
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SimpleChatClient client = new SimpleChatClient();
         SimpleChatClient client2 = new SimpleChatClient();
         try {
-            client.connect("localhost", 1234, "lol");
-            client2.connect("localhost", 1234, "WOOP");
+            client.connect("localhost", 5000, "lol");
+ //           Thread.sleep(1000);
+            client2.connect("localhost", 5000, "WOOP");
+ //           Thread.sleep(1000);
             client.sendMessage("WOOP", "LOLOLOLOLOLOL");
         } catch (IOException ex) {
             Logger.getLogger(SimpleChatClient.class.getName()).log(Level.SEVERE, null, ex);

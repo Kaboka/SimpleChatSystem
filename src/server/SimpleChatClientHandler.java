@@ -29,7 +29,6 @@ public class SimpleChatClientHandler extends Thread {
         while(keepRunning){
             String msg = "";
             while (input.hasNext()) {
-                output.println(msg);
                 msg = input.nextLine();
                 System.out.println(msg);
                 command = msg.substring(0,msg.indexOf("#"));
@@ -38,7 +37,7 @@ public class SimpleChatClientHandler extends Thread {
                     server.addClient(msg.substring(msg.indexOf("#")+1), this);
                     server.online();
                 }else if(command.equals("SEND")){
-                    msg = msg.substring(msg.indexOf("#"));
+                    msg = msg.substring(msg.indexOf("#")+1);
                     server.message(msg);
                 }
                 
