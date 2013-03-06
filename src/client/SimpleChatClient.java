@@ -4,12 +4,15 @@
  */
 package client;
 
+import interfaces.MessageArrivedEvent;
+import interfaces.MessageArrivedListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.EventListenerList;
 
 /**
  *
@@ -46,6 +49,8 @@ public class SimpleChatClient extends Thread {
         boolean keepRunning = true;
         while(keepRunning){
             String msg = input.nextLine();
+                fireMessageArrivedEventEvent(new MessageArrivedEvent(this,msg.substring(0,
+                        msg.indexOf("#")), msg.substring(msg.indexOf("#")+1)));
             System.out.println(msg);
         }
     }
@@ -59,25 +64,40 @@ public class SimpleChatClient extends Thread {
         output.println(message);
         
     }
+  
+  protected EventListenerList listenerList = new EventListenerList();
     
-    public void addMessageArrivedEventListener(){
-        
+  public void addMessageArrivedListener(MessageArrivedListener listener)
+  {
+    listenerList.add(MessageArrivedListener.class, listener);
+  }
+
+  public void removeMessageArrivedListener(MessageArrivedListener listener)
+  {
+    listenerList.remove(MessageArrivedListener.class, listener);
+  }
+
+  private void fireMessageArrivedEventEvent(MessageArrivedEvent evt)
+  {
+    MessageArrivedListener[] listeners = listenerList.getListeners(MessageArrivedListener.class);
+    for (MessageArrivedListener listener : listeners) {
+      listener.MessageArrived(evt);
     }
+  }
     
-    public void removeMessageArrivedEventListener(){
+    public static void main(String[] args) {
         
-    }
-    public static void main(String[] args) throws InterruptedException {
-        SimpleChatClient client = new SimpleChatClient();
-        SimpleChatClient client2 = new SimpleChatClient();
-        try {
-            client.connect("localhost", 5000, "lol");
- //           Thread.sleep(1000);
-            client2.connect("localhost", 5000, "WOOP");
- //           Thread.sleep(1000);
-            client.sendMessage("WOOP", "LOLOLOLOLOLOL");
-        } catch (IOException ex) {
-            Logger.getLogger(SimpleChatClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+//        SimpleChatClient client = new SimpleChatClient();
+//        SimpleChatClient client2 = new SimpleChatClient();
+//        try {
+//            client.connect("localhost", 5000, "lol");
+// //           Thread.sleep(1000);
+//            client2.connect("localhost", 5000, "WOOP");
+// //           Thread.sleep(1000);
+//            client.sendMessage("WOOP", "LOLOLOLOLOLOL");
+//        } catch (IOException ex) {
+//            Logger.getLogger(SimpleChatClient.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

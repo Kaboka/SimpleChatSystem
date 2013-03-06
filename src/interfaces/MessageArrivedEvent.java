@@ -13,9 +13,20 @@ import java.util.EventObject;
 public class MessageArrivedEvent extends EventObject
 {
 
-  String message;
+  private String message;
+  private String type;
 
   /**
+   * The Type of the message in the form ONLINE or MESSAGE
+   *
+   * @return
+   */
+  
+  public String getType(){
+      return type;
+  }
+  
+    /**
    * The complete message in the form COMMAND#MSG
    *
    * @return
@@ -41,9 +52,10 @@ public class MessageArrivedEvent extends EventObject
    * @param source
    * @param message
    */
-  public MessageArrivedEvent(Object source, String message)
+  public MessageArrivedEvent(Object source, String type, String message)
   {
     super(source);
+    this.type = type;
     this.message = message;
   }
 }
