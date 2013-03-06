@@ -138,7 +138,10 @@ public class SimpleChatGui extends javax.swing.JFrame {
     
     private void simpleChatClient1MessageArrived(interfaces.MessageArrivedEvent evt){
         dlm.clear();
-        dlm.addElement(evt.getMessage());
+        String[] online = evt.getMessage().split(",");
+        for(int i = 0; i < online.length;i++){
+                    dlm.addElement(online[i]);
+        }
     }
     /**
      * @param args the command line arguments
