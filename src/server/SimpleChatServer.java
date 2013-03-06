@@ -32,17 +32,14 @@ public class SimpleChatServer {
     
     public void listen(){
                 System.out.println("Server is started");
-//        clients = new HashMap<>();
+                clients = new HashMap<>();
         try {
             serverSocket = new ServerSocket(PORT);
             while (true) {
-                //Important: This is a blocking call.
                 Socket socket = serverSocket.accept();
                 SimpleChatClientHandler ch = new SimpleChatClientHandler(this, socket);
- //               clients.put(, ch)
                 ch.start();
                 System.out.println("Got a new client");
-//                clients.put("", socket);
             }
         } catch (IOException ex) {
             Logger.getLogger(SimpleChatServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,6 +47,7 @@ public class SimpleChatServer {
     }
     
     public static void main(String[] args) {
-        
+        SimpleChatServer server = new SimpleChatServer();
+        server.listen();
     }
 }
