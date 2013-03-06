@@ -19,25 +19,37 @@ import java.util.logging.Logger;
 public class SimpleChatServer {
 
     public static final int PORT = 1234;
-    static ServerSocket serverSocket;
-    public static SimpleChatClientHandler ch;
-    private static Map<String, Socket> clients;
+    private static ServerSocket serverSocket;
+    private Map<String,SimpleChatClientHandler> clients;
+
+//    public String online(){
+//        String online = "ONLINE#";
+//        for(String user: clients.keySet()){
+//            online += user+",";
+//        }
+//        return online;
+//    }
     
-        public static void main(String[] args) {
-        System.out.println("Server is started");
-        clients = new HashMap<>();
+    public void listen(){
+                System.out.println("Server is started");
+//        clients = new HashMap<>();
         try {
-            serverSocket = new ServerSocket(PORT); 
-            while(true){     
-                ch = new SimpleChatClientHandler();
+            serverSocket = new ServerSocket(PORT);
+            while (true) {
                 //Important: This is a blocking call.
                 Socket socket = serverSocket.accept();
-                SimpleChatClientHandler.handleClient(socket);
+                SimpleChatClientHandler ch = new SimpleChatClientHandler(this, socket);
+ //               clients.put(, ch)
+                ch.start();
                 System.out.println("Got a new client");
-                clients.put("", socket);
+//                clients.put("", socket);
             }
         } catch (IOException ex) {
             Logger.getLogger(SimpleChatServer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static void main(String[] args) {
+        
     }
 }
