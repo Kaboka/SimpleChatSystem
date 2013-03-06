@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Nicklas Hemmingsen
  */
-public class SimpleChatClient {
+public class SimpleChatClient extends Thread {
     
     private static final int NOTCONNECTED = 0;
     private static final int CONNECTED = 1;
@@ -37,6 +37,16 @@ public class SimpleChatClient {
             input = new Scanner(socket.getInputStream());
             output.println("CONNECT#"+userName);
             state = CONNECTED;
+            start();
+        }
+    }
+    
+    @Override
+    public void run(){
+        boolean keepRunning = true;
+        while(keepRunning){
+            String msg = input.nextLine();
+            System.out.println(msg);
         }
     }
     
@@ -45,6 +55,8 @@ public class SimpleChatClient {
     }
     
     public void sendMessage(String reciver,String msg){
+        String message = "SEND#"+reciver+"#"+msg;
+        output.println(message);
         
     }
     
@@ -57,9 +69,11 @@ public class SimpleChatClient {
     }
     public static void main(String[] args) {
         SimpleChatClient client = new SimpleChatClient();
+        SimpleChatClient client2 = new SimpleChatClient();
         try {
             client.connect("localhost", 1234, "lol");
-            System.in.read();
+            client2.connect("localhost", 1234, "WOOP");
+            client.sendMessage("WOOP", "LOLOLOLOLOLOL");
         } catch (IOException ex) {
             Logger.getLogger(SimpleChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
