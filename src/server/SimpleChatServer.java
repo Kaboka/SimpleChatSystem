@@ -35,9 +35,10 @@ public class SimpleChatServer {
     
     public synchronized void message(String msg){
         String reciever = msg.substring(0, msg.indexOf("#"));
+        String finalMessage = msg.substring(msg.indexOf("#")+1);
          for (String key : clients.keySet()) {
              if(key.equals(reciever))
-                clients.get(key).send(msg);
+                clients.get(key).send("MESSAGE#"+finalMessage);
                 
                 System.out.println(clients.get(key));
         }

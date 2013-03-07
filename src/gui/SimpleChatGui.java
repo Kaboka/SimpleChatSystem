@@ -17,7 +17,9 @@ import javax.swing.DefaultListModel;
  * @author Kasper
  */
 public class SimpleChatGui extends javax.swing.JFrame {
-     private DefaultListModel dlm;
+
+    private DefaultListModel dlm;
+
     /**
      * Creates new form SimpleChatGui
      */
@@ -28,14 +30,12 @@ public class SimpleChatGui extends javax.swing.JFrame {
         jList1.setModel(dlm);
         simpleChatClient1 = new SimpleChatClient();
         simpleChatClient1.addMessageArrivedListener(new MessageArrivedListener() {
-
             @Override
             public void MessageArrived(MessageArrivedEvent event) {
                 simpleChatClient1MessageArrived(event);
             }
         });
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,6 +74,11 @@ public class SimpleChatGui extends javax.swing.JFrame {
         jTextField2.setToolTipText("");
 
         jButton2.setText("Send");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -124,10 +129,9 @@ public class SimpleChatGui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jTextField1.getText() == null)
-        {
+        if (jTextField1.getText() == null) {
             jTextArea1.setText("ERROR:You need to enter a user name");
-        }else{
+        } else {
             try {
                 simpleChatClient1.connect("localhost", 5000, jTextField1.getText());
             } catch (IOException ex) {
@@ -135,14 +139,25 @@ public class SimpleChatGui extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    private void simpleChatClient1MessageArrived(interfaces.MessageArrivedEvent evt){
-        dlm.clear();
-        String[] online = evt.getMessage().split(",");
-        for(int i = 0; i < online.length;i++){
-                    dlm.addElement(online[i]);
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        simpleChatClient1.sendMessage((String) dlm.getElementAt(jList1.getSelectedIndex()), jTextField2.getText());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void simpleChatClient1MessageArrived(interfaces.MessageArrivedEvent evt) {
+        if (evt.getType().equals("ONLINE")) {
+            dlm.clear();
+            String[] online = evt.getMessage().split(",");
+            for (int i = 0; i < online.length; i++) {
+                dlm.addElement(online[i]);
+            }
+                
+            }else if(evt.getType().equals("MESSAGE")){
+                jTextArea1.append(evt.getMessage());
         }
+
     }
+
     /**
      * @param args the command line arguments
      */
