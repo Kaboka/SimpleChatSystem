@@ -12,6 +12,7 @@ public class SimpleChatClientHandler extends Thread {
     private Scanner input;
     private boolean keepRunning = true;
     private SimpleChatServer server;
+    private String userName;
 
     public SimpleChatClientHandler(){
         
@@ -35,10 +36,14 @@ public class SimpleChatClientHandler extends Thread {
                 if(command.equals("CONNECT")){
                     System.out.println(msg.substring(msg.indexOf("#")+1));
                     server.addClient(msg.substring(msg.indexOf("#")+1), this);
+                    userName = msg.substring(msg.indexOf("#")+1);
                     server.online();
                 }else if(command.equals("SEND")){
                     msg = msg.substring(msg.indexOf("#")+1);
-                    server.message(msg);
+                    server.message(msg,userName);
+                }else if(command.equals("CLOSE"))
+                {
+                    server.close(userName);
                 }
                 
             }

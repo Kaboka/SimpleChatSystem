@@ -10,19 +10,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.event.EventListenerList;
 
 /**
  *
+ * 
+ * 
  * @author Nicklas Hemmingsen
  */
+
 public class SimpleChatClient extends Thread {
     
     private static final int NOTCONNECTED = 0;
     private static final int CONNECTED = 1;
     private static final int CLOSING = 2;
+    private static final int CLOSED = 3;
     
     private int state = NOTCONNECTED;
 
@@ -46,22 +48,37 @@ public class SimpleChatClient extends Thread {
     
     @Override
     public void run(){
-        boolean keepRunning = true;
-        while(keepRunning){
+        while(state == CONNECTED){
             String msg = input.nextLine();
                 fireMessageArrivedEventEvent(new MessageArrivedEvent(this,msg.substring(0,
                         msg.indexOf("#")), msg.substring(msg.indexOf("#")+1)));
             System.out.println(msg);
         }
+        while(state == CLOSING){
+            String msg = input.nextLine();
+            if(msg.equals("CLOSE#")){
+                state = CLOSED;
+            }
+        }
     }
     
-    public void disconnect(){
-        
+    public void disconnect(){    
+        if(state != CONNECTED){
+            throw new IllegalStateException();
+        }else{
+            state = CLOSING;
+            output.println("CLOSE#");
+        }
     }
     
-    public void sendMessage(String reciver,String msg){
-        String message = "SEND#"+reciver+"#"+msg;
-        output.println(message);
+    public void sendMessage(String receiver,String msg){
+        if(state != CONNECTED)
+        {
+            throw new IllegalStateException();
+        }else{
+            String message = "SEND#"+receiver+"#"+msg;
+            output.println(message);
+        }
         
     }
   

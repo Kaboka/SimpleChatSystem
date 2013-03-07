@@ -8,6 +8,8 @@ import client.SimpleChatClient;
 import interfaces.MessageArrivedEvent;
 import interfaces.MessageArrivedListener;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -57,6 +59,11 @@ public class SimpleChatGui extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jTextField1.setText("user name");
 
@@ -133,7 +140,7 @@ public class SimpleChatGui extends javax.swing.JFrame {
             jTextArea1.setText("ERROR:You need to enter a user name");
         } else {
             try {
-                simpleChatClient1.connect("localhost", 5000, jTextField1.getText());
+                simpleChatClient1.connect("192.168.0.2", 4242, jTextField1.getText());
             } catch (IOException ex) {
                 Logger.getLogger(SimpleChatGui.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -141,8 +148,22 @@ public class SimpleChatGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        simpleChatClient1.sendMessage((String) dlm.getElementAt(jList1.getSelectedIndex()), jTextField2.getText());
+
+        String receivers = "";
+        if (jList1.getSelectedValuesList().isEmpty()) {
+            receivers = "*";
+        } else {
+
+            for (Object selected : jList1.getSelectedValuesList()) {
+                receivers += selected + ",";
+            }
+            simpleChatClient1.sendMessage(receivers, jTextField2.getText());
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+                simpleChatClient1.disconnect();
+    }//GEN-LAST:event_formWindowClosing
 
     private void simpleChatClient1MessageArrived(interfaces.MessageArrivedEvent evt) {
         if (evt.getType().equals("ONLINE")) {
@@ -151,13 +172,14 @@ public class SimpleChatGui extends javax.swing.JFrame {
             for (int i = 0; i < online.length; i++) {
                 dlm.addElement(online[i]);
             }
-                
-            }else if(evt.getType().equals("MESSAGE")){
-                jTextArea1.append(evt.getMessage());
+
+        } else if (evt.getType().equals("MESSAGE")) {
+            String newLine = System.getProperty("line.separator");
+            Date date = new Date();
+            jTextArea1.append(newLine + new Timestamp(date.getTime()) + evt.getMessage());
         }
 
     }
-
     /**
      * @param args the command line arguments
      */

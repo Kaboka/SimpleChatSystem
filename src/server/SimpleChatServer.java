@@ -33,22 +33,28 @@ public class SimpleChatServer {
         }
     }
     
-    public synchronized void message(String msg){
-        String reciever = msg.substring(0, msg.indexOf("#"));
+    public synchronized void message(String msg, String userName){
+//        System.out.println(msg);
+        String receiverString = msg.substring(0, msg.indexOf("#"));
+        String[] receivers = receiverString.split(",");
         String finalMessage = msg.substring(msg.indexOf("#")+1);
          for (String key : clients.keySet()) {
-             if(key.equals(reciever))
-                clients.get(key).send("MESSAGE#"+finalMessage);
-                
-                System.out.println(clients.get(key));
+             for(int i = 0; i < receivers.length;i++){
+                if(key.equals(receivers[i])){
+                    clients.get(key).send("MESSAGE#"+userName+"#"+finalMessage);
+                    System.out.println(clients.get(key));
+                }
+             }
         }
     }
     
-    public void close(String msg){
-        String reciever = msg.substring(0, msg.indexOf("#"));
+    public void close(String userName){
         for (String key : clients.keySet()) {
-             if(key.equals(reciever))
-                clients.remove(key);
+             if(key.equals(userName)){
+                 clients.get(key).send("CLOSE#");
+                 clients.remove(key);
+                 online();
+             }
         }
     }
 
