@@ -108,11 +108,13 @@ public class SimpleChatClient extends Thread {
 //        SimpleChatClient client = new SimpleChatClient();
 //        SimpleChatClient client2 = new SimpleChatClient();
 //        try {
-//            client.connect("localhost", 5000, "lol");
+//            client.connect("localhost", 5000, "userA");
 // //           Thread.sleep(1000);
-//            client2.connect("localhost", 5000, "WOOP");
+//            client2.connect("localhost", 5000, "UserB");
 // //           Thread.sleep(1000);
-//            client.sendMessage("WOOP", "LOLOLOLOLOLOL");
+//            client.sendMessage("UserB", "Hello");
+//              client.disconnect();
+
 //        } catch (IOException ex) {
 //            Logger.getLogger(SimpleChatClient.class.getName()).log(Level.SEVERE, null, ex);
 //        }

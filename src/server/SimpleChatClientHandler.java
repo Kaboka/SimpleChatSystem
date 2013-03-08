@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SimpleChatClientHandler extends Thread {
 
@@ -13,6 +15,7 @@ public class SimpleChatClientHandler extends Thread {
     private boolean keepRunning = true;
     private SimpleChatServer server;
     private String userName;
+    private Socket socket;
 
     public SimpleChatClientHandler(){
         
@@ -20,6 +23,7 @@ public class SimpleChatClientHandler extends Thread {
     public SimpleChatClientHandler(SimpleChatServer server, Socket socket) throws IOException {
         output = new PrintWriter(socket.getOutputStream(), true);
         input = new Scanner(socket.getInputStream());
+        this.socket = socket;
         this.server = server;
 
     }
@@ -52,5 +56,12 @@ public class SimpleChatClientHandler extends Thread {
     
     public void send(String msg){
         output.println(msg);
+          try {
+        if(msg.equals("CLOSE#")){
+            socket.close();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(SimpleChatClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }
 }
