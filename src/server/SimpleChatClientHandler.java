@@ -16,6 +16,10 @@ public class SimpleChatClientHandler extends Thread {
     private SimpleChatServer server;
     private String userName;
     private Socket socket;
+    private final int NOTCONNECTED = 0;
+    private final int CONNECTED = 1;
+    private final int HANDELING = 2;
+    private int state = NOTCONNECTED;
 
     public SimpleChatClientHandler(){
         
@@ -37,17 +41,19 @@ public class SimpleChatClientHandler extends Thread {
                 msg = input.nextLine();
                 System.out.println(msg);
                 command = msg.substring(0,msg.indexOf("#"));
-                if(command.equals("CONNECT")){
+                if(command.equals("CONNECT") && state == NOTCONNECTED){
                     System.out.println(msg.substring(msg.indexOf("#")+1));
                     server.addClient(msg.substring(msg.indexOf("#")+1), this);
                     userName = msg.substring(msg.indexOf("#")+1);
                     server.online();
-                }else if(command.equals("SEND")){
+                    state = CONNECTED;
+                }else if(command.equals("SEND" )){
                     msg = msg.substring(msg.indexOf("#")+1);
                     server.message(msg,userName);
                 }else if(command.equals("CLOSE"))
                 {
                     server.close(userName);
+                    
                 }
                 
             }

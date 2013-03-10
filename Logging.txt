@@ -1,0 +1,46 @@
+mar 08, 2013 10:42:23 AM server.SimpleChatServer listen
+INFO: Started the server: Fri Mar 08 10:42:23 CET 2013
+mar 08, 2013 10:42:37 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#lol,  
+mar 08, 2013 10:42:42 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#lol,woop,  
+mar 08, 2013 10:42:51 AM server.SimpleChatServer message
+INFO: Sendt the message: woop,#hey  
+mar 08, 2013 10:42:51 AM server.SimpleChatServer message
+INFO: Sendt the message: woop,#hey  
+mar 08, 2013 10:42:59 AM server.SimpleChatServer message
+INFO: Sendt the message: lol,#LOLOL  
+mar 08, 2013 10:42:59 AM server.SimpleChatServer message
+INFO: Sendt the message: lol,#LOLOL  
+mar 08, 2013 10:43:37 AM server.SimpleChatServer close
+INFO: Sendt the message CLOSE
+mar 08, 2013 10:43:37 AM server.SimpleChatServer close
+INFO: Removed the client: woop from list of clients 
+mar 08, 2013 10:43:37 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#lol,  
+mar 08, 2013 10:43:37 AM server.SimpleChatServer close
+INFO: Sendt the message CLOSE
+mar 08, 2013 10:43:37 AM server.SimpleChatServer close
+INFO: Removed the client: woop from list of clients 
+mar 08, 2013 10:43:50 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#  
+mar 08, 2013 10:43:50 AM server.SimpleChatServer close
+INFO: Sendt the message CLOSE
+mar 08, 2013 10:43:50 AM server.SimpleChatServer close
+INFO: Removed the client: lol from list of clients 
+mar 08, 2013 10:45:09 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#user name,  
+mar 08, 2013 10:45:12 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#  
+mar 08, 2013 10:45:12 AM server.SimpleChatServer close
+INFO: Sendt the message CLOSE
+mar 08, 2013 10:45:12 AM server.SimpleChatServer close
+INFO: Removed the client: user name from list of clients 
+mar 08, 2013 10:56:40 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#user name,  
+mar 08, 2013 10:56:41 AM server.SimpleChatServer online
+INFO: Sendt the message: ONLINE#  
+mar 08, 2013 10:56:41 AM server.SimpleChatServer close
+INFO: Sendt the message CLOSE
+mar 08, 2013 10:56:41 AM server.SimpleChatServer close
+INFO: Removed the client: user name from list of clients 
