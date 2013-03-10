@@ -34,7 +34,7 @@ public class SimpleChatServer {
         for (SimpleChatClientHandler handler : clients.values()) {
             handler.send(online);
         }
-        Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, String.format("Sendt the message: %s  ",online));
+        Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, String.format("Sendt the message: %s  ", online));
     }
 
     public synchronized void message(String msg, String userName) {
@@ -49,28 +49,24 @@ public class SimpleChatServer {
                         clients.get(key).send("MESSAGE#" + userName + "#" + finalMessage);
                         System.out.println(clients.get(key));
                     }
-                    Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, String.format("Sendt the message: %s  ",msg));
+                    Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, String.format("Sendt the message: %s  ", msg));
                 }
             }
         } else {
             for (String key : clients.keySet()) {
                 clients.get(key).send("MESSAGE#" + userName + "#" + finalMessage);
                 System.out.println("All clients: " + clients.get(key));
-                Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, String.format("Sendt the message: %s  ",msg));
+                Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, String.format("Sendt the message: %s  ", msg));
             }
         }
     }
 
     public void close(String userName) {
-        for (String key : clients.keySet()) {
-            if (key.equals(userName)) {
-                clients.get(key).send("CLOSE#");
-                clients.remove(key);
-                online();
-            }
-            Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO,"Sendt the message CLOSE");
-            Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO,String.format("Removed the client: %s from list of clients ",userName));
-        }
+        clients.get(userName).send("CLOSE#");
+        clients.remove(userName);
+        online();
+        Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, "Sendt the message CLOSE");
+        Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, String.format("Removed the client: %s from list of clients ", userName));
     }
 
     public synchronized void addClient(String name, SimpleChatClientHandler handler) {
@@ -80,12 +76,8 @@ public class SimpleChatServer {
     public void listen() {
         System.out.println("Server is started");
         clients = new HashMap<>();
-        Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, "Started the server: "+new Date().toString());
+        Logger.getLogger(SimpleChatServer.class.getName()).log(Level.INFO, "Started the server: " + new Date().toString());
         try {
-//            clients.put("HANS", new SimpleChatClientHandler());
-//            clients.put("Ole", new SimpleChatClientHandler());
-//            clients.put("Erik", new SimpleChatClientHandler());
-//            clients.put("Sigurd", new SimpleChatClientHandler());
 
             serverSocket = new ServerSocket(PORT);
             while (true) {

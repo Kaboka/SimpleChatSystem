@@ -54,6 +54,7 @@ public class SimpleChatClient extends Thread {
                 System.out.println(msg);
             } else {
                 state = CLOSING;
+                System.out.println(msg);
             }
         }
         state = CLOSED;

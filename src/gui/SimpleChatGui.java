@@ -140,7 +140,7 @@ public class SimpleChatGui extends javax.swing.JFrame {
             jTextArea1.setText("ERROR:You need to enter a user name");
         } else {
             try {
-                simpleChatClient1.connect("localhost", 5000, jTextField1.getText());
+                simpleChatClient1.connect("192.168.1.15", 5000, jTextField1.getText());
             } catch (IOException ex) {
                 Logger.getLogger(SimpleChatGui.class.getName()).log(Level.SEVERE, null, ex);
             }
